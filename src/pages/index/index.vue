@@ -12,9 +12,15 @@
     </view>
 
     <swiper class="swiper" :current="selectIndex" @change="onSwiperChange" :style="'height: ' + listHeight + 'px;'">
-      <swiper-item><view class="content-item">1</view></swiper-item>
-      <swiper-item><view class="content-item">2</view></swiper-item>
-      <swiper-item><view class="content-item">3</view></swiper-item>
+      <swiper-item
+        ><view class="content-item"><Base /></view
+      ></swiper-item>
+      <swiper-item
+        ><view class="content-item"><Personal /></view
+      ></swiper-item>
+      <swiper-item
+        ><view class="content-item"><House /></view
+      ></swiper-item>
     </swiper>
   </view>
 </template>
@@ -22,8 +28,11 @@
 <script setup lang="ts">
 import { onLoad } from "@dcloudio/uni-app";
 import { getCurrentInstance, onMounted, ref } from "vue";
-const instance = getCurrentInstance();
+import Base from "./base.vue";
+import Personal from "./personal.vue";
+import House from "./house.vue";
 
+const instance = getCurrentInstance();
 const postion = ref([0]);
 const selectIndex = ref(0);
 const listHeight = ref(uni.getSystemInfoSync().windowHeight);

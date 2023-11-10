@@ -16,7 +16,7 @@ import { ref } from "vue";
 import GridImage from "../../feed-flow/grid-image.vue";
 import FeedFlow from "../../feed-flow/feed-flow.vue";
 import { reactive } from "vue";
-import { FeedFlowType, type FeedFlowModel } from "@/feed-flow/feed-flow-model";
+import { FeedFlowType, type FeedFlowModel } from "../../feed-flow/feed-flow-model";
 const title = ref("123");
 
 const imgs = [
