@@ -1,80 +1,125 @@
 <template>
   <view class="content">
-    <!-- <img src="https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png" /> -->
-    <view class="text-area">
-      <text class="title">{{ title }}</text>
+    <view class="type-box">
+      <scroll-view scroll-x :scroll-left="0" scroll-with-animation>
+        <view class="tab">
+          <view class="tab-item tab-item-1" :class="{ active: selectIndex == 0 }" @click="onClickItem(0)">基础信息</view>
+          <view class="tab-item tab-item-2" :class="{ active: selectIndex == 1 }" @click="onClickItem(1)">全房个性化</view>
+          <view class="tab-item tab-item-3" :class="{ active: selectIndex == 2 }" @click="onClickItem(2)">房屋空间</view>
+        </view>
+        <view class="slider" :style="{ left: postion[selectIndex] + 'px' }"></view>
+      </scroll-view>
     </view>
 
-    <!-- <GridImage :img-list="imgs" :limit-count="100" /> -->
-    <FeedFlow :model="feedModel" />
+    <swiper class="swiper" :current="selectIndex" @change="onSwiperChange">
+      <swiper-item><view class="content-item">1</view></swiper-item>
+      <swiper-item><view class="content-item">2</view></swiper-item>
+      <swiper-item><view class="content-item">3</view></swiper-item>
+    </swiper>
   </view>
 </template>
 
 <script setup lang="ts">
 import { onLoad } from "@dcloudio/uni-app";
-import { ref } from "vue";
-import GridImage from "../../feed-flow/grid-image.vue";
-import FeedFlow from "../../feed-flow/feed-flow.vue";
-import { reactive } from "vue";
-import { FeedFlowType, type FeedFlowModel } from "@/feed-flow/feed-flow-model";
-const title = ref("123");
+import { getCurrentInstance, onMounted, ref } from "vue";
 
-const imgs = [
-  "https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png",
-  "https://pic1.ijiangmao.com/te/osf/890fc8d2c70e490f906a5db4ca22985c.png",
-  "https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png",
-  "https://pic1.ijiangmao.com/te/osf/890fc8d2c70e490f906a5db4ca22985c.png",
-  "https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png",
-  "https://pic1.ijiangmao.com/te/osf/890fc8d2c70e490f906a5db4ca22985c.png",
-  "https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png",
-  "https://pic1.ijiangmao.com/te/osf/890fc8d2c70e490f906a5db4ca22985c.png",
-  "https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png",
-  "https://pic1.ijiangmao.com/te/osf/890fc8d2c70e490f906a5db4ca22985c.png",
-  "https://pic1.ijiangmao.com/te/osf/094445a255b244ceac4514fa16cdaffe.png",
-  "https://pic1.ijiangmao.com/te/osf/890fc8d2c70e490f906a5db4ca22985c.png",
-];
+const postion = ref([0]);
+const selectIndex = ref(0);
 
-// const feedModel = reactive<FeedFlowModel>();
-const feedModel = ref<FeedFlowModel>();
+onMounted(() => {
+  getTabItemSize();
+});
+
+const instance = getCurrentInstance();
+
+const getSize = async (that: any, selector: string[]): Promise<UniApp.NodeInfo[]> => {
+  const arr = selector.map(
+    sel =>
+      new Promise(resolve => {
+        const query = uni.createSelectorQuery();
+        query
+          .in(that)
+          .select(sel)
+          .boundingClientRect((rect: any) => {
+            resolve(rect);
+          })
+          .exec();
+      }),
+  );
+
+  return Promise.all(arr) as Promise<UniApp.NodeInfo[]>;
+};
+
+const getTabItemSize = async () => {
+  const res = await getSize(instance, [".tab-item-1", ".tab-item-2", ".tab-item-3"]);
+  console.log(res);
+
+  postion.value = res.map(v => {
+    return v.left! + v.width! / 2 - 28 / 2 / 2;
+  });
+};
+
+const onClickItem = (i: number) => {
+  selectIndex.value = i;
+};
+
+const onSwiperChange = (e: any) => {
+  selectIndex.value = e.detail.current;
+};
 
 onLoad(() => {
-  title.value = "onLoad";
-  const obj: FeedFlowModel = {
-    type: FeedFlowType.NORMAL,
-    user: {
-      avatar: "https://pic1.ijiangmao.com/te/osf/fbf388d7d6954b179eb5a9086e618874.png",
-      name: "333",
-      desc: "444445555",
-      identify: "55555",
-    },
-    info: {
-      time: "",
-      stage: "",
-    },
-    importantConent: "rwhjkrh",
-    content: "23123213",
-    imageList: imgs.map((v: any) => {
-      return { imageUrl: v, thumbnailImageUrl: v, id: v };
-    }),
-    imageLimitCount: 9,
-    location: "123123",
-  };
-
-  feedModel.value = obj;
+  // getTabItemSize();
 });
 </script>
 
 <style lang="less" scoped>
 .content {
-  // background-color: red;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32rpx;
+  background-color: white;
 }
-.imgwrap {
-  position: relative;
-  width: 100%;
+
+.tab {
+  display: flex;
+  padding: 0 50rpx;
+}
+.tab-item {
+  flex: 1;
+  padding: 20rpx;
+  font-family: MiSans-Normal;
+  font-size: 32rpx;
+  color: #7e807e;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 400;
+  &.active {
+    font-family: MiSans-Demibold;
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+}
+
+.slider {
+  background: #1a1a1a;
+  border-radius: 4rpx;
+  width: 28rpx;
+  height: 8rpx;
+  position: absolute;
+  bottom: 0;
+  transition: all 0.5s;
+}
+
+.swiper {
+  height: 1344rpx;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
 }
 </style>
