@@ -3,15 +3,15 @@
     <view class="type-box">
       <scroll-view scroll-x :scroll-left="0" scroll-with-animation>
         <view class="tab">
-          <view class="tab-item tab-item-1" :class="{ active: selectIndex == 0 }" @click="onClickItem(0)">基础信息</view>
-          <view class="tab-item tab-item-2" :class="{ active: selectIndex == 1 }" @click="onClickItem(1)">全房个性化</view>
-          <view class="tab-item tab-item-3" :class="{ active: selectIndex == 2 }" @click="onClickItem(2)">房屋空间</view>
+          <view class="tab-item" :class="{ active: selectIndex == 0 }" @click="onClickItem(0)">基础信息</view>
+          <view class="tab-item" :class="{ active: selectIndex == 1 }" @click="onClickItem(1)">全房个性化</view>
+          <view class="tab-item" :class="{ active: selectIndex == 2 }" @click="onClickItem(2)">房屋空间</view>
         </view>
         <view class="slider" :style="{ left: postion[selectIndex] + 'px' }"></view>
       </scroll-view>
     </view>
 
-    <swiper class="swiper" :current="selectIndex" @change="onSwiperChange">
+    <swiper class="swiper" :current="selectIndex" @change="onSwiperChange" :style="'height: ' + listHeight + 'px;'">
       <swiper-item><view class="content-item">1</view></swiper-item>
       <swiper-item><view class="content-item">2</view></swiper-item>
       <swiper-item><view class="content-item">3</view></swiper-item>
@@ -22,41 +22,40 @@
 <script setup lang="ts">
 import { onLoad } from "@dcloudio/uni-app";
 import { getCurrentInstance, onMounted, ref } from "vue";
+const instance = getCurrentInstance();
 
 const postion = ref([0]);
 const selectIndex = ref(0);
+const listHeight = ref(uni.getSystemInfoSync().windowHeight);
 
 onMounted(() => {
-  getTabItemSize();
+  calcSize();
 });
 
-const instance = getCurrentInstance();
+const calcSize = () => {
+  uni
+    .createSelectorQuery()
+    .in(instance)
+    .selectAll(".tab-item")
+    .boundingClientRect((rect: any) => {
+      const rects = rect as UniApp.NodeInfo[];
+      postion.value = rects.map(v => {
+        return v.left! + v.width! / 2 - 28 / 2 / 2;
+      });
+    })
+    .exec();
 
-const getSize = async (that: any, selector: string[]): Promise<UniApp.NodeInfo[]> => {
-  const arr = selector.map(
-    sel =>
-      new Promise(resolve => {
-        const query = uni.createSelectorQuery();
-        query
-          .in(that)
-          .select(sel)
-          .boundingClientRect((rect: any) => {
-            resolve(rect);
-          })
-          .exec();
-      }),
-  );
-
-  return Promise.all(arr) as Promise<UniApp.NodeInfo[]>;
-};
-
-const getTabItemSize = async () => {
-  const res = await getSize(instance, [".tab-item-1", ".tab-item-2", ".tab-item-3"]);
-  console.log(res);
-
-  postion.value = res.map(v => {
-    return v.left! + v.width! / 2 - 28 / 2 / 2;
-  });
+  uni
+    .createSelectorQuery()
+    .in(instance)
+    .selectAll(".type-box")
+    .boundingClientRect((rect: any) => {
+      const { height } = rect[0];
+      const systemInfo: any = uni.getSystemInfoSync();
+      listHeight.value = systemInfo.windowHeight - height;
+      console.log(listHeight.value, height);
+    })
+    .exec();
 };
 
 const onClickItem = (i: number) => {
@@ -67,9 +66,7 @@ const onSwiperChange = (e: any) => {
   selectIndex.value = e.detail.current;
 };
 
-onLoad(() => {
-  // getTabItemSize();
-});
+onLoad(() => {});
 </script>
 
 <style lang="less" scoped>
@@ -105,10 +102,6 @@ onLoad(() => {
   position: absolute;
   bottom: 0;
   transition: all 0.5s;
-}
-
-.swiper {
-  height: 1344rpx;
 }
 
 .red {
