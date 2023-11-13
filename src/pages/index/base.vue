@@ -7,29 +7,29 @@
 
     <view class="section">
       <view class="section-title">2. 房子是否有做设计</view>
-      <view class="section-radio">
-        <view class="section-radio-item">
-          <view class="icon">
-            <image src="" mode="scaleToFill" />
-          </view>
-          <text>是</text>
-        </view>
+      <radio-group class="section-radio-group" @change="">
+        <view class="radio-item-wrap"> <radio class="radio-item" color="#FFCC33" :checked="false" />否</view>
+        <view class="radio-item-wrap"> <radio class="radio-item" color="#FFCC33" :checked="true" />是</view>
+      </radio-group>
+    </view>
 
-        <view class="section-radio-item">
-          <view class="icon">
-            <image src="" mode="scaleToFill" />
-          </view>
-          <text>否</text>
-        </view>
-      </view>
+    <view class="section">
+      <view class="section-title">3. 是否有屋外框面积</view>
+      <radio-group class="section-radio-group" @change="">
+        <view class="radio-item-wrap"> <radio class="radio-item" color="#FFCC33" :checked="true" />否</view>
+        <view class="radio-item-wrap"> <radio class="radio-item" color="#FFCC33" :checked="false" />是</view>
+      </radio-group>
+    </view>
+
+    <view class="section">
+      <view class="section-title">4. 房屋外框面积</view>
+      <input class="section-input" disabled :value="'123456'" placeholder="" placeholder-class="input-placeholder" @input="" />
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
-const onRadioChange = (e: any) => {
-  console.log(e);
-};
+import { computed, ref } from "vue";
 </script>
 
 <style scoped lang="less">
@@ -38,12 +38,26 @@ const onRadioChange = (e: any) => {
   .section {
     margin-top: 48rpx;
     .section-title {
+      position: relative;
+      display: block;
       font-family: MiSans-Medium;
       font-size: 34rpx;
       color: #1a1a1a;
       line-height: 46rpx;
       font-weight: 500;
       margin-bottom: 28rpx;
+      padding-left: 20rpx;
+      &::before {
+        content: "*";
+        position: absolute;
+        font-family: MiSans-Medium;
+        font-size: 34rpx;
+        color: #fd6343;
+        line-height: 46rpx;
+        font-weight: 500;
+        left: 0;
+        top: 0;
+      }
     }
     .section-input {
       border: 2rpx solid rgba(236, 238, 236, 1);
@@ -59,28 +73,18 @@ const onRadioChange = (e: any) => {
         right: 32rpx;
       }
     }
-    .section-radio {
-      // display: flex;
+    .section-radio-group {
+      display: flex;
+      flex-direction: column;
+      border-radius: 18rpx;
       border: 2rpx solid rgba(226, 228, 226, 1);
-      border-radius: 16rpx;
-      .section-radio-item {
-        height: 96rpx;
-        display: flex;
-        align-items: center;
-        color: #fff;
+      pointer-events: none;
+      .radio-item-wrap {
         &:not(:last-child) {
-          border-bottom: 2rpx solid rgba(236, 238, 236, 1);
+          border-bottom: 2rpx solid rgba(226, 228, 226, 1);
         }
-        .icon {
-          border-radius: 18rpx;
-          border: 2rpx solid rgba(226, 228, 226, 1);
-          width: 36rpx;
-          height: 36rpx;
-          margin-left: 24rpx;
-          image {
-            width: 36rpx;
-            height: 36rpx;
-          }
+        .radio-item {
+          padding: 32rpx 26rpx;
         }
       }
     }
