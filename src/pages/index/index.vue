@@ -1,42 +1,58 @@
-<template>
-  <view class="content">
-    <c-navigator
-      :show-city="false"
-      :show-back="true"
-      background-color="#fff"
-      ref="navRef"
-      @rendered="handleNavRendered"
-      title="需求收集"
-      retainHeight
-    />
-    <tab :titles="['基础信息', '全房个性化', '房屋空间']" v-slot="{ index }">
-      <Base v-if="index === 0" />
-      <Personal v-if="index === 1" />
-      <House v-if="index === 2" />
-    </tab>
-    <BottomBar :show="true" />
-  </view>
-</template>
-
 <script setup lang="ts">
-import Tab from "./components/tab/index.vue";
-import Base from "./base.vue";
-import Personal from "./personal.vue";
-import House from "./house.vue";
-import BottomBar from "./bottom-bar.vue";
-import { reactive } from "vue";
-const size = reactive({
-  contentHeight: 0,
-  navHeight: 0,
-});
-function handleNavRendered(data: { contentHeight: number; navHeight: number }) {
-  size.contentHeight = data.contentHeight;
-  size.navHeight = data.navHeight;
+import cSearchInput from "@/components/c-search-input.vue";
+import AssociateList from "./associate-list.vue";
+import History from "./history.vue";
+import ResultList from "./result-list.vue";
+import { ref } from "vue";
+
+const showType = ref(0);
+
+function onClickCancle() {
+  console.log("onClickCancle");
+}
+
+function onChangeInput(e: any) {
+  console.log("onChangeInput", e.detail.value);
+  if (e.detail.value) {
+    showType.value = 2;
+  } else {
+    showType.value = 0;
+  }
 }
 </script>
 
-<style lang="less" scoped>
+<template>
+  <view class="content">
+    <view class="input-area">
+      <c-search-input class="input-search" placeholder="搜索商品/商家" @input="onChangeInput" />
+      <text class="input-cancel" @click="onClickCancle">取消</text>
+    </view>
+    <History v-if="showType === 0" />
+    <AssociateList v-if="showType === 1" />
+    <ResultList v-if="showType === 2" />
+  </view>
+</template>
+
+<style scoped lang="less">
 .content {
-  background-color: #f6f6f6;
+  padding: 16rpx;
+}
+.input-area {
+  display: flex;
+  align-items: center;
+}
+.input-search {
+  flex: 1;
+}
+.input-cancel {
+  font-family: MiSans-Regular;
+  font-size: 28rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 40rpx;
+  font-weight: 400;
+  padding-left: 36rpx;
+  padding-right: 12rpx;
 }
 </style>
