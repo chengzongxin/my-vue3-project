@@ -6,8 +6,10 @@
           <image class="img" src="https://pic1.ijiangmao.com/te/osf/48733ae10b914739b1001a1c61e77aa6.png" mode="scaleToFill" />
         </view>
         <view class="right">
-          <text class="right-title-tag">平台补贴</text>
-          <text class="right-title">门洞加宽加高宽度在有限的以内高宽度在有限的以内</text>
+          <view>
+            <text class="right-title-tag">平台补贴</text>
+            <text class="right-title">门洞加宽加高宽度在有限的以内高宽度在有限的以内</text>
+          </view>
           <view>
             <text class="r1">补贴后¥</text>
             <text class="r2">9999</text>
@@ -54,7 +56,10 @@ const dataList = ref(["排水管", "刷漆师傅"]);
 }
 .right {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding-left: 20rpx;
+  justify-content: space-between;
 }
 .right-title-tag {
   font-family: MiSans-Medium;
