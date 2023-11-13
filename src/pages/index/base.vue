@@ -36,7 +36,7 @@ import { computed, ref } from "vue";
 .content {
   margin-top: 16rpx;
   padding: 48rpx 40rpx;
-  background-color: white !important;
+  background-color: white;
   min-height: 100vh;
   .section {
     &:not(:first-child) {

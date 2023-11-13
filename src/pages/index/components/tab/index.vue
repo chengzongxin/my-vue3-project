@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view class="type-box">
-      <scroll-view scroll-x :scroll-left="0" scroll-with-animation>
+      <scroll-view class="tab-scroll" scroll-x :scroll-left="0" scroll-with-animation>
         <view class="tab">
           <view class="tab-item" :class="{ active: selectIndex == index }" v-for="(item, index) in titles" @click="onClickItem(index)">{{
             item
@@ -14,7 +14,9 @@
     <swiper class="swiper" :current="selectIndex" @change="onSwiperChange" :style="'height: ' + listHeight + 'px;'">
       <swiper-item v-for="(item, index) in titles" :key="index">
         <view class="content-item">
-          <slot :index="index"></slot>
+          <scroll-view class="scroll-Y" :style="'height: ' + listHeight + 'px;'" scroll-y>
+            <slot :index="index"></slot>
+          </scroll-view>
         </view>
       </swiper-item>
     </swiper>
@@ -77,13 +79,22 @@ onLoad(() => {});
 
 <style lang="less" scoped>
 .content {
-  background-color: white;
+  // background-color: white;
 }
-
+.type-box {
+  position: relative;
+}
+.tab-scroll {
+  position: relative;
+}
+.scroll-Y {
+  height: 300rpx;
+}
 .tab {
   display: flex;
   padding: 0 50rpx;
   background-color: #fff;
+  height: 88rpx;
 }
 .tab-item {
   flex: 1;
@@ -107,7 +118,8 @@ onLoad(() => {});
   width: 28rpx;
   height: 8rpx;
   position: absolute;
-  bottom: 0;
+  // bottom: 0;
+  top: 80rpx;
   transition: all 0.5s;
 }
 </style>
