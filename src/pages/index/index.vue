@@ -5,6 +5,7 @@
       <Personal v-if="index === 1" />
       <House v-if="index === 2" />
     </tab>
+    <BottomBar :show="true" />
   </view>
 </template>
 
@@ -13,6 +14,7 @@ import Tab from "./components/tab/index.vue";
 import Base from "./base.vue";
 import Personal from "./personal.vue";
 import House from "./house.vue";
+import BottomBar from "./bottom-bar.vue";
 </script>
 
 <style lang="less" scoped>
