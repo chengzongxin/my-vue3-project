@@ -29,6 +29,7 @@ import { getCurrentInstance, onMounted, ref } from "vue";
 
 const props = defineProps<{
   titles?: Array<string>;
+  sliderLeft?: number;
 }>();
 
 const instance = getCurrentInstance();
@@ -48,7 +49,9 @@ const calcSize = () => {
     .boundingClientRect((rect: any) => {
       const rects = rect as UniApp.NodeInfo[];
       postion.value = rects.map(v => {
-        return v.left! + v.width! / 2 - 28 / 2 / 2;
+        console.log(v);
+
+        return v.left! + v.width! / 2 - 28 / 2 / 2 - (props.sliderLeft || 0);
       });
     })
     .exec();

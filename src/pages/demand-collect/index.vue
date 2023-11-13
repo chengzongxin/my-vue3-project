@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import Tab from "./components/tab/index.vue";
+import Tab from "@/components/tab/index.vue";
 import Base from "./base.vue";
 import Personal from "./personal.vue";
 import House from "./house.vue";
