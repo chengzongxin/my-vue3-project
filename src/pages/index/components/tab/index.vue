@@ -83,6 +83,7 @@ onLoad(() => {});
 .tab {
   display: flex;
   padding: 0 50rpx;
+  background-color: #fff;
 }
 .tab-item {
   flex: 1;

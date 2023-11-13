@@ -24,8 +24,14 @@ import { computed, ref } from "vue";
 
 <style scoped lang="less">
 .content {
-  padding: 0rpx 40rpx;
+  margin-top: 16rpx;
+  padding: 48rpx 40rpx;
+  background-color: white !important;
+  min-height: 100vh;
   .section {
+    &:not(:first-child) {
+      margin-top: 48rpx;
+    }
     margin-top: 48rpx;
     .section-title {
       position: relative;

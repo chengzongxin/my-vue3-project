@@ -19,6 +19,6 @@ import BottomBar from "./bottom-bar.vue";
 
 <style lang="less" scoped>
 .content {
-  background-color: white;
+  background-color: #f6f6f6;
 }
 </style>
