@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
   <view class="rating">
-    <StarRating readonly :star="props.star" />
+    <StarRating readonly v-model:value="props.star" />
     <view class="tag">
       <view class="tag-item" v-for="(item, index) in props.tagList" :key="index" :class="{ active: true }">{{ item }}</view>
     </view>

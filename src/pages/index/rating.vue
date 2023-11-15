@@ -2,13 +2,19 @@
 import { reactive, ref } from "vue";
 import StarRating from "./star-rating.vue";
 
+const emit = defineEmits<{
+  (e: "submit", form: object): void;
+}>();
+
 const formData = reactive({
+  star: 0,
+  tags: [""],
   desc: "",
 });
 
-const selectTagIdx = ref();
+const selectTagIdxs = ref<number[]>([]);
 
-const tagList = ref(["师傅上门准时", "师傅上门准时", "师傅上门准时", "师傅上门准时"]);
+const tagList = ref(["师傅上门准时", "师傅态度很好", "师傅很专业", "师傅很耐心"]);
 
 const onClickStar = (e: number) => {
   console.log(e);
@@ -16,20 +22,35 @@ const onClickStar = (e: number) => {
 
 const onClickTag = (e: number) => {
   console.log(e);
-  selectTagIdx.value = e;
+  if (selectTagIdxs.value.includes(e)) {
+    selectTagIdxs.value = selectTagIdxs.value.filter(v => {
+      return v != e;
+    });
+  } else {
+    selectTagIdxs.value.push(e);
+  }
+  formData.tags = tagList.value.filter((v, i) => {
+    if (selectTagIdxs.value.includes(i)) {
+      return v;
+    }
+  });
+};
+
+const onSubmit = () => {
+  emit("submit", formData);
 };
 </script>
 
 <template>
   <view class="rating">
-    <StarRating @click-star="onClickStar" />
+    <StarRating @click-star="onClickStar" v-model:value="formData.star" />
     <view class="title">您对本次服务满意的地方是？</view>
     <view class="tag">
       <view
         class="tag-item"
         v-for="(item, index) in tagList"
         :key="index"
-        :class="{ active: selectTagIdx === index }"
+        :class="{ active: selectTagIdxs.includes(index) }"
         @click="onClickTag(index)"
         >{{ item }}</view
       >
@@ -41,7 +62,7 @@ const onClickTag = (e: number) => {
       placeholder-class="input-placeholder"
       @input=""
     />
-    <button class="btn">提交</button>
+    <button class="btn" @click="onSubmit">提交</button>
   </view>
 </template>
 

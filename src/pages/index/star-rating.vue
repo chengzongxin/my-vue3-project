@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { watch } from "vue";
 import { reactive } from "vue";
 import { ref } from "vue";
 
 const props = defineProps<{
   readonly?: boolean;
-  star?: number;
+  value?: number;
 }>();
 
 const emit = defineEmits<{
-  (e: "clickStar", i: number): void;
+  (e: "update:value", i: number): void;
 }>();
 
 const normal_icon = "https://pic1.ijiangmao.com/te/osf/18ad0b3dfe6b4c57a4b41709b3e3e384.png";
@@ -38,26 +39,21 @@ const list = reactive([
   },
 ]);
 
-onMounted(() => {
-  console.log("props.star", props.star);
-
-  if (props.star) {
+watch(
+  () => props.value,
+  v => {
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
-      element.icon = i <= props.star ? select_icon : normal_icon;
+      element.icon = i <= v! ? select_icon : normal_icon;
     }
-  }
-});
+  },
+);
 
 const onClick = (e: number) => {
   if (props.readonly) {
     return;
   }
-  for (let i = 0; i < list.length; i++) {
-    const element = list[i];
-    element.icon = i <= e ? select_icon : normal_icon;
-  }
-  emit("clickStar", e);
+  emit("update:value", e);
 };
 </script>
 
