@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { reactive } from "vue";
 import { ref } from "vue";
 
 const props = defineProps<{
   readonly?: boolean;
+  star?: number;
 }>();
 
 const emit = defineEmits<{
@@ -35,6 +37,17 @@ const list = reactive([
     text: "非常满意",
   },
 ]);
+
+onMounted(() => {
+  console.log("props.star", props.star);
+
+  if (props.star) {
+    for (let i = 0; i < list.length; i++) {
+      const element = list[i];
+      element.icon = i <= props.star ? select_icon : normal_icon;
+    }
+  }
+});
 
 const onClick = (e: number) => {
   if (props.readonly) {
