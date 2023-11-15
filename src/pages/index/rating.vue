@@ -66,20 +66,23 @@ const onClickTag = (e: number) => {
     .tag-item {
       box-sizing: border-box;
       padding: 14rpx 0;
-      font-family: MiSans-Medium;
       font-size: 28rpx;
-      color: #1a1a1a;
       letter-spacing: 0.17px;
       text-align: center;
       line-height: 44rpx;
-      font-weight: 500;
       border-radius: 16rpx;
       background: #f6f6f6;
-      border: 3px solid rgba(255, 210, 80, 0);
+      border: 3rpx solid rgba(255, 210, 80, 0);
+      font-family: MiSans-Regular;
+      color: #333333;
+      font-weight: 400;
     }
 
     .active {
-      border: 3px solid rgba(255, 210, 80, 1);
+      font-family: MiSans-Medium;
+      color: #1a1a1a;
+      font-weight: 500;
+      border: 3rpx solid rgba(255, 210, 80, 1);
       background: rgba(255, 210, 80, 0.1);
     }
   }
@@ -89,6 +92,10 @@ const onClickTag = (e: number) => {
     background: #f6f6f6;
     border-radius: 16rpx;
     padding-left: 30rpx;
+    font-family: MiSans-Semibold;
+    font-size: 28rpx;
+    color: #1a1a1a;
+    font-weight: 600;
   }
   .input-placeholder {
     font-family: MiSans-Regular;
