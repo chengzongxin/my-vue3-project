@@ -44,7 +44,7 @@ watch(
   v => {
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
-      element.icon = i <= v! ? select_icon : normal_icon;
+      element.icon = i < v! ? select_icon : normal_icon;
     }
   },
 );
@@ -53,7 +53,7 @@ const onClick = (e: number) => {
   if (props.readonly) {
     return;
   }
-  emit("update:value", e);
+  emit("update:value", e + 1);
 };
 </script>
 
