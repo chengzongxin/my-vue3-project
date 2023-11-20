@@ -1,40 +1,32 @@
-<script setup lang="ts">
-import cPopup from "@/components/c-popup.vue";
-import StarRating from "./star-rating.vue";
-import Rating from "./rating.vue";
-import RatingFinish from "./rating-finish.vue";
-import { ref } from "vue";
-import { reactive } from "vue";
-
-const isShowComment = ref(false);
-const isShowCommentFinish = ref(false);
-const tagList = ["师傅上门准时", "师傅上门准时"];
-let rating = reactive({
-  star: 0,
-  tags: [""],
-  desc: "",
-});
-
-const onSubmit = (e: any) => {
-  console.log(e);
-  rating = e;
-  isShowComment.value = false;
-};
-</script>
 <template>
-  <div class="index">
-    <button hover-class="button-hover" @click="isShowComment = true">comment</button>
-    <button hover-class="button-hover" @click="isShowCommentFinish = true">finish</button>
-  </div>
-  <StarRating readonly />
-
-  <c-popup v-model:show="isShowComment" title="你是否满意本次服务">
-    <Rating @submit="onSubmit" />
-  </c-popup>
-
-  <c-popup v-model:show="isShowCommentFinish" title="评价完成">
-    <RatingFinish :star="rating.star" :tag-list="rating.tags" :desc="rating.desc" />
-  </c-popup>
+  <rich-text
+    @itemclick="richTextOperate"
+    nodes="您的预约单已取消，如还需服务请重新预约~ 师傅已为您结算费用清单 <a class='quotationDetail'>[费用清单12]</a>"
+    class="rich-text"
+  ></rich-text>
 </template>
 
-<style scoped lang="less"></style>
+<script setup lang="ts">
+const richTextOperate = () => {
+  console.log("richTextOperate");
+};
+</script>
+
+<style scoped lang="less">
+.rich-text {
+  word-wrap: break-word;
+  /* white-space: pre-wrap; */
+  word-break: break-all;
+  /* 设置富文本的大小 */
+  font-size: 3.94vw;
+}
+
+.quotationDetail {
+  color: aqua;
+}
+
+// .rich-text >>> a {
+//   text-decoration: underline;
+//   color: blue;
+// }
+</style>
