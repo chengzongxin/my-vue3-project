@@ -1,9 +1,5 @@
 <template>
-  <rich-text
-    @itemclick="richTextOperate"
-    nodes="您的预约单已取消，如还需服务请重新预约~ 师傅已为您结算费用清单 <a class='quotationDetail'>[费用清单12]</a>"
-    class="rich-text"
-  ></rich-text>
+  <view>123</view>
 </template>
 
 <script setup lang="ts">
