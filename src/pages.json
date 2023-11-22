@@ -13,9 +13,9 @@
       }
     },
     {
-      "path": "pages/demand-collect/index",
+      "path": "pages/user/index",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "user"
       }
     }
   ],
@@ -41,6 +41,12 @@
       {
         "pagePath": "pages/test/index",
         "text": "test",
+        "iconPath": "",
+        "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "user",
         "iconPath": "",
         "selectedIconPath": ""
       }
